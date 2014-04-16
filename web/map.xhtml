@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+
+        </ui:define>
+        <ui:define name="body">
+
+            <h:form id="fo">
+                <p:growl id="messages" showDetail="true" />
+                <p:gmap id="gmap" center="#{myBean.geo}" zoom="#{myBean.zoom}" type="HYBRID" 
+                        style="width:600px;height:400px"
+                        model="#{myBean.emptyModel}" 
+                        widgetVar="map" >
+
+                    <p:ajax event="pointSelect" oncomplete="innondationInfo.show()" listener="#{myBean.onPointSelect}" update=":fo:messages,:fo:gmap" />
+                </p:gmap>
+            </h:form>
+            
+            <h:form id="to" >
+                <h:outputText id="txt_count"  value="#{myBean.tempo} " rendered="#{myBean.afficheStart}"/>
+                <p:commandButton type="button" value="Start"  
+                                 icon="ui-icon-play" onclick="poll.start();" id="btnStart" rendered="#{myBean.afficheStart}" /> 
+
+                <p:commandButton type="button" value="Stop"  
+                                 icon="ui-icon-pause" onclick="poll.stop();" id="btnStop" rendered="#{myBean.afficheStart}" /> 
+
+                <p:poll interval="2" listener="#{myBean.showInnondationDemo()}"  
+                        update=":fo:gmap , txt_count" widgetVar="poll" autoStart="false" />
+
+            </h:form>
+            <h:form id="ent" >   
+
+                <p:dialog header="Detail de l'innondation" widgetVar="innondationInfo" resizable="false" id="editP" modal="false" showEffect="slide" hideEffect="explode">
+
+                    <p:growl id="growl" sticky="false" />
+
+                    <p:panelGrid id="display" columns="3"   style="margin:0 auto;"> 
+
+                        <f:facet name="header">  
+                            <h:outputLabel value="Vitesse"/>
+                        </f:facet> 
+
+                        <h:outputLabel for="Vitesse" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse" value="#{myBean.direction.speed}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+
+                        <h:outputLabel for="Angle" title="Angle" value="Angle :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Angle" value="#{myBean.direction.angle}" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="en ° a partir du northwest" style="color: crimson;width : 150px" />
+
+                    </p:panelGrid> 
+                    <p:separator/>
+                    <p:commandButton value="Valider"  actionListener="#{myBean.showSart()}" update=":to" oncomplete="innondationInfo.hide()"  />
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+
+
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+           
+        </ui:define>
+        <ui:define name="body">
+  
+            
+                        <h:form id="dessin">
+                <p:commandButton id="a" update="dessin,:fo" value="Activer Dessin de Polygone" actionListener="#{mapAutreBean.dessiner()}" disabled="#{mapAutreBean.dessin}"/>
+                <p:commandButton id="b"  update="dessin,:fo:gmap" value="Valider le Polygone" actionListener="#{mapAutreBean.finDessiner()}" oncomplete="Poly.show()" disabled="#{!mapAutreBean.dessin}"/>
+  </h:form>
+            
+                <h:form id="tO" >   
+
+                    <p:dialog header="Dessin" widgetVar="Poly" resizable="false" id="supp" modal="false" showEffect="slide" hideEffect="explode">
+
+                       
+
+                        <p:panelGrid id="T" columns="2"   style="margin:0 auto;"> 
+
+                            <f:facet name="header">  
+                                <h:outputLabel value="Dessin"/>
+                            </f:facet> 
+
+                            <h:outputLabel   value="Opacité de remplissage :" style="color: crimson;width : 150px" />
+
+                            <p:selectOneMenu  value="#{mapAutreBean.polygon.fillOpacity}" required="true" style="color: crimson;width : 150px">  
+
+                                <f:selectItem itemLabel="0.1" itemValue="0.1" />  
+                                <f:selectItem itemLabel="0.2" itemValue="0.2" />  
+                                <f:selectItem itemLabel="0.3" itemValue="0.3" />
+                                <f:selectItem itemLabel="0.4" itemValue="0.4" />  
+                                <f:selectItem itemLabel="0.5" itemValue="0.5" />  
+                                <f:selectItem itemLabel="0.6" itemValue="0.6" />  
+                                <f:selectItem itemLabel="0.7" itemValue="0.7" />  
+                                <f:selectItem itemLabel="0.8" itemValue="0.8" />  
+                                <f:selectItem itemLabel="0.9" itemValue="0.9" />  
+
+
+                            </p:selectOneMenu>  
+
+
+
+                            <h:outputLabel   value="Opacité de contour :" style="color: crimson;width : 150px" />
+
+                            <p:selectOneMenu  value="#{mapAutreBean.polygon.strokeOpacity}" required="true" style="color: crimson;width : 150px">  
+
+                                <f:selectItem itemLabel="0.1" itemValue="0.1" />  
+                                <f:selectItem itemLabel="0.2" itemValue="0.2" />  
+                                <f:selectItem itemLabel="0.3" itemValue="0.3" />
+                                <f:selectItem itemLabel="0.4" itemValue="0.4" />  
+                                <f:selectItem itemLabel="0.5" itemValue="0.5" />  
+                                <f:selectItem itemLabel="0.6" itemValue="0.6" />  
+                                <f:selectItem itemLabel="0.7" itemValue="0.7" />  
+                                <f:selectItem itemLabel="0.8" itemValue="0.8" />  
+                                <f:selectItem itemLabel="0.9" itemValue="0.9" />  
+
+
+                            </p:selectOneMenu>   
+
+                            <h:outputText value="Couleur de contoure " />  
+                            <p:colorPicker id="popupCP" value="#{mapAutreBean.polygon.strokeColor}" required="true" style="color: crimson;width : 150px"/>  
+                            <h:outputText value="Couleur de remplissage " />  
+                            <p:colorPicker id="popupCPa" value="#{mapAutreBean.polygon.fillColor}" /> 
+
+
+                        </p:panelGrid> 
+                        <p:separator/>
+                        <p:commandButton value="Dessiner"  actionListener="#{mapAutreBean.validerPoly()}" update=":fo:gmap" oncomplete="Poly.hide()"  />
+                    </p:dialog>
+
+                </h:form>
+          
+            
+            
+                  <h:form id="co">  
+                    <p:growl id="messages"/> 
+                    <h:outputLabel value="Centraliser la map à l'adresse : " for="acSimple" />  
+     <p:autoComplete id="acSimple" value="#{mapAutreBean.txt1}" completeMethod="#{mapAutreBean.complete}" style="width : 350px">  
+                <p:ajax event="itemSelect" listener="#{mapAutreBean.handleSelect}" update="messages,:fo:gmap" />  
+     </p:autoComplete> 
+     
+     <br/>
+     
+     
+               </h:form >  
+            
+            <h:form id="fo">
+                <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+                    <p:growl id="messages" showDetail="true" />
+                    <p:gmap id="gmap" center="#{mapAutreBean.latlngInitial.lat},#{mapAutreBean.latlngInitial.lng}" zoom="#{mapAutreBean.zoom}" type="HYBRID" 
+                            style="width:600px;height:400px"
+                            model="#{mapAutreBean.emptyModel}" 
+                            widgetVar="map" >
+                        <p:ajax event="stateChange" listener="#{mapAutreBean.onStateChange}" update=":fo:gmap" />
+
+                        <p:ajax event="pointSelect" oncomplete="if(!#{mapAutreBean.dessin}) innondationInfo.show()" listener="#{mapAutreBean.onPointSelect}" update=":fo:messages,:fo:gmap" />
+                    </p:gmap>
+
+                    <p:selectOneListbox id="scroll" value="#{mapAutreBean.imageCourante}" var="p" style="width:60px;height:400px">  
+                        <f:selectItems value="#{mapAutreBean.markerImage}"  />  
+
+                        <p:column>  
+                            <p:graphicImage value="images/marker/#{p}" width="40"/>  
+                        </p:column>  
+
+                        <f:ajax event="change" execute="@this" render="@this" />
+                    </p:selectOneListbox>
+                </h:panelGrid>        
+            </h:form>
+            <h:form id="to" >
+                <ul>
+
+
+                    <ui:repeat value="#{mapAutreBean.listMarker}" var="markeur">
+
+                        <li> <h:outputText id="txt_count"  value="#{markeur.avancementTemporelle} " rendered="#{mapAutreBean.afficheStart}"/>
+                            <p:commandButton type="button" value="Start"  
+                                             icon="ui-icon-play" actionListener="#{mapAutreBean.start()}" onclick="poll#{mapAutreBean.listMarker.indexOf(markeur)}.start();" id="btnStart" rendered="#{mapAutreBean.afficheStart}" /> 
+
+                            <p:commandButton type="button" value="Stop" 
+                                             icon="ui-icon-pause" actionListener="#{mapAutreBean.stoper()}" onclick="poll#{mapAutreBean.listMarker.indexOf(markeur)}.stop();" id="btnStop" rendered="#{mapAutreBean.afficheStart}" /> 
+
+                            <p:poll interval="2" listener="#{mapAutreBean.showInnondationDemo(markeur)}"  
+                                    update=":fo:gmap , txt_count" widgetVar="poll#{mapAutreBean.listMarker.indexOf(markeur)}" autoStart="false" stop="#{mapAutreBean.stop}" />
+                            <p:commandButton id="Supprimer" update=":to,:fo" icon="ui-icon-trash" action="#{mapAutreBean.delete(markeur) }"  title="Supprime"/>
+                            <span style="font-family: Comic Sans MS;
+                                  text-align: center;
+                                  font-weight: 100;
+                                  text-decoration: blink;
+                                  text-transform: lowercase;
+                                  font-style: italic;
+                                  font-size: 12px;
+                                  line-height: 1;
+                                  letter-spacing: 1px;
+                                  word-spacing: 0px;
+                                  text-indent: 10px;
+                                  color: #f86634;
+                                  background: #f7f7f7;">
+                                <h:outputText   value="Vitesse Visualisation : " />
+                                <h:outputText   value="1=> #{markeur.listeDirection.get(0).speed} " style="color: #{markeur.listeDirection.get(0).couleur};"/>
+                                <h:outputText   value=" || 2=> #{markeur.listeDirection.get(1).speed} " style="color: #{markeur.listeDirection.get(1).couleur};"/>
+                                <h:outputText   value=" || 3=> #{markeur.listeDirection.get(2).speed} " style="color: #{markeur.listeDirection.get(2).couleur};"/>
+                                <h:outputText   value=" || 4=> #{markeur.listeDirection.get(3).speed} " style="color: #{markeur.listeDirection.get(3).couleur};"/>
+
+
+                            </span>
+
+
+                        </li>
+
+                    </ui:repeat>
+                </ul>
+            </h:form>
+            <h:form id="ent" >   
+
+                <p:dialog header="Detail de l'innondation" widgetVar="innondationInfo" resizable="false" id="editP" modal="false" showEffect="slide" hideEffect="explode">
+
+                    <p:growl id="growl" sticky="false" />
+
+                    <p:panelGrid id="display" columns="3"   style="margin:0 auto;"> 
+
+                        <f:facet name="header">  
+                            <h:outputLabel value="Vitesse"/>
+                        </f:facet> 
+
+                        <h:outputLabel for="Vitesse2" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse1" value="#{mapAutreBean.v1}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse2" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse2" value="#{mapAutreBean.v2}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse3" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse3" value="#{mapAutreBean.v3}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse4" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse4" value="#{mapAutreBean.v4}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+
+
+                    </p:panelGrid> 
+                    <p:separator/>
+                    <p:commandButton value="Valider"  actionListener="#{mapAutreBean.showSart()}" update=":to,:fo" oncomplete="innondationInfo.hide()"  />
+                </p:dialog>
+
+            </h:form>
+
+
+
+
+        </ui:define>
+    </ui:composition>
+
+
+
+
+</html>

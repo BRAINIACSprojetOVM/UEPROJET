@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      >
+
+    <f:view contentType="text/html">
+         
+        <h:head>
+             <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript" ></script>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                  
+               <ui:insert name="title">
+                   
+                   
+               </ui:insert>
+
+      
+            </f:facet>
+        </h:head>
+
+        <h:body >
+ <p:layout fullPage="true">
+           
+     
+    
+     <p:layoutUnit position="center" >
+         <p:graphicImage value="/images/inn.jpg" style="width: 1125px ;min-width: 1125px"/>
+         
+         
+         
+         
+          
+       
+         
+         
+      
+         
+         
+         
+         
+         <div id="contenu"  style="min-width: 1000px;min-height: 800px" >
+                    <center> <h1 style="color : #4e6a71;text-align: center">
+            <ui:insert name="title">Default Title</ui:insert>
+            </h1></center>
+                    <p style="font-family: comic sans MS,sans-serif ;">
+                     <ui:insert name="body" >Default Body</ui:insert></p>
+                <p:idleMonitor timeout="50000"   
+            onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
+              
+<p:dialog header="Bonjour" resizable="false"  
+            widgetVar="idleDialog" modal="true" width="400">  
+    <h:outputText value="Mr Vous etes Toujours là ?? " />  
+</p:dialog>
+                </div>
+    
+          <h:form>
+                 <p:stack icon="/images/stack.png">  
+ 
+     <p:menuitem value="Automatique" icon="/images/aut.png" url="mapAuto.xhtml" />  
+
+   <p:menuitem value="Manuel" icon="/images/manu.png" url="mapAutre.xhtml" /> 
+   <p:menuitem value="Niveau de l'eau" icon="/images/wat2.png" url="mapLevelWater.xhtml" />
+</p:stack>
+     
+      </h:form>
+     
+         
+         </p:layoutUnit>
+            <p:layoutUnit position="west" size="250" header="Galerie" resizable="true"  collapsible="true" effect="drop">
+                <h:form id="formgeneral" >
+                    <p:growl id="growlgeneral"/>
+  
+                
+                      
+       <h:panelGrid columns="1" width="235">
+                   
+                 <p:imageSwitch  effect="zoom">  
+   
+                     <p:graphicImage width="235" height="235" value="/images/inno/1.JPG" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/2.jpg" />  
+        <p:graphicImage  width="235" height="235" value="/images/inno/3.jpg" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/4.jpg" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/5.jpg" />  
+        <p:graphicImage width="235" height="235"  value="/images/inno/6.jpg" /> 
+         <p:graphicImage width="235" height="235"  value="/images/inno/7.jpg" />
+        
+     
+</p:imageSwitch> 
+            <p:imageSwitch  effect="turnDown">  
+   
+                     <p:graphicImage width="235" height="235" value="/images/inno/8.jpg" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/9.jpg" />  
+        <p:graphicImage  width="235" height="235" value="/images/inno/10.jpg" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/11.jpg" />  
+        <p:graphicImage width="235" height="235" value="/images/inno/12.jpg" />  
+        <p:graphicImage width="235" height="235"  value="/images/inno/13.jpg" />  
+         <p:graphicImage width="235" height="235"  value="/images/inno/14.jpg" /> 
+        
+     
+</p:imageSwitch> 
+                      </h:panelGrid>
+     
+                  
+      </h:form>
+               
+                
+                  </p:layoutUnit> 
+      </p:layout>
+        </h:body>
+
+    </f:view>
+</html>
+

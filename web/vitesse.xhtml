@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      >
+
+ 
+         
+        <h:head>
+             <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+           </f:facet>
+        </h:head>
+
+        <h:body >
+          
+  <h:form id="ent" >   
+
+                <p:dialog header="Detail de l'innondation" widgetVar="innondationInfo" resizable="false" id="editP" modal="false" showEffect="slide" hideEffect="explode">
+
+                    <p:growl id="growl" sticky="false" />
+
+                    <p:panelGrid id="display" columns="3"   style="margin:0 auto;"> 
+
+                        <f:facet name="header">  
+                            <h:outputLabel value="Vitesse"/>
+                        </f:facet> 
+
+                        <h:outputLabel for="Vitesse2" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse1" value="#{mapAutreBean.v1}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse2" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse2" value="#{mapAutreBean.v2}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse3" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse3" value="#{mapAutreBean.v3}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+                        <h:outputLabel for="Vitesse4" title="Vitesse" value="Vitesse :" style="color: crimson;width : 150px" />
+                        <p:inputText id="Vitesse4" value="#{mapAutreBean.v4}" required="true" style="color: crimson;width : 150px"/>
+                        <h:outputLabel  value="metre/heurs" style="color: crimson;width : 150px" />
+
+
+                    </p:panelGrid> 
+                    <p:separator/>
+                    <p:commandButton value="Valider"  actionListener="#{mapAutreBean.showSart()}"   />
+                </p:dialog>
+
+            </h:form>
+
+ 
+         </h:body>
+
+   
+</html>
+   
